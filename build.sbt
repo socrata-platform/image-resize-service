@@ -1,17 +1,19 @@
-name := "helloworld"
+name := "hello"
 
 organization := "com.socrata"
 
 version := "0.0.1"
 
-scalaVersion := "2.10.4"
+scalaVersion := "2.11.8"
 
 resolvers ++= Seq(
   "socrata maven" at "https://repository-socrata-oss.forge.cloudbees.com/release"
 )
 
 libraryDependencies ++= Seq(
-  "com.socrata" %% "socrata-http-jetty" % "2.0.0"
+  "com.socrata" %% "socrata-http-jetty" % "3.11.1",
+  "org.slf4j" % "slf4j-log4j12" % "1.7.21",
+  "org.slf4j" % "slf4j-api" % "1.7.21"
 )
 
 testOptions in Test += Tests.Argument(TestFrameworks.ScalaTest, "-oD")
