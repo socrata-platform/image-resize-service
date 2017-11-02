@@ -1,4 +1,4 @@
-package com.socrata.hello
+package com.socrata.imageresize
 
 import javax.servlet.http.HttpServletRequest
 
@@ -13,13 +13,13 @@ import com.socrata.http.server.util.handlers.{LoggingOptions, NewLoggingHandler}
 import com.socrata.http.server.routing.SimpleRouteContext.{Route, Routes}
 import com.socrata.http.server.{HttpRequest, HttpResponse, HttpService}
 
-class Router(helloService: => HttpService) {
+class Router(healthService: HttpService) {
   private val logger = LoggerFactory.getLogger(getClass)
   private val logWrapper = NewLoggingHandler(LoggingOptions(logger, Set("X-Socrata-Host",
                                                                         "X-Socrata-Resource",
                                                                         ReqIdHeader))) _
 
-  val routes = Routes(Route("/hello", helloService))
+  val routes = Routes(Route("/health", healthService))
 
   /** 404 error. */
   val notFound: HttpService = { req =>
@@ -32,13 +32,13 @@ class Router(helloService: => HttpService) {
   }
 }
 
-object Hello extends App {
-  val router = new Router(new HelloService())
+object ImageResizeApp extends App {
+  val router = new Router(new HealthService())
 
   val server = new SocrataServerJetty(
     handler = router.route,
     options = SocrataServerJetty.defaultOptions.
-      withPort(8888).
+      withPort(1989).
       withPoolOptions(SocrataServerJetty.Pool.defaultOptions.withMinThreads(10)))
 
   server.run()

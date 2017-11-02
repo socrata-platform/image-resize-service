@@ -1,4 +1,4 @@
-name := "hello"
+name := "image-resize-service"
 
 organization := "com.socrata"
 
@@ -13,7 +13,8 @@ resolvers ++= Seq(
 libraryDependencies ++= Seq(
   "com.socrata" %% "socrata-http-jetty" % "3.11.1",
   "org.slf4j" % "slf4j-log4j12" % "1.7.21",
-  "org.slf4j" % "slf4j-api" % "1.7.21"
+  "org.slf4j" % "slf4j-api" % "1.7.21",
+  "org.imgscalr" % "imgscalr-lib" % "4.2"
 )
 
 testOptions in Test += Tests.Argument(TestFrameworks.ScalaTest, "-oD")
