@@ -8,9 +8,8 @@ import org.imgscalr.Scalr
 import org.apache.commons.io.FilenameUtils
 
 /**
- * Convert images around. Uses the mime types from Java IIO rather
- * than the blist ones for portability.
- *
+ * Convert images around. Uses the mime types from Java IIO.
+  *
  * MimeTypes Supported by Java ImageIO
  *
  * image/x-portable-anymap
@@ -30,7 +29,7 @@ import org.apache.commons.io.FilenameUtils
  * image/x-portable-graymap
  */
 object ImageUtilities {
-  case class Dimension(width: Int, height: Int)
+  case class Dimensions(width: Int, height: Int)
 
   def getMimeType(filename: String): Option[String] = {
     FilenameUtils.getExtension(filename) match {
@@ -71,7 +70,7 @@ object ImageUtilities {
   /**
    * Measure the dimension of an image on disk. Return an Array(x,y)
    */
-  def getImageSize(is: InputStream): Option[Dimension] = {
+  def getImageSize(is: InputStream): Option[Dimensions] = {
     try {
       val iis = ImageIO.createImageInputStream(is)
       val originalImage = ImageIO.read(iis)
@@ -80,7 +79,7 @@ object ImageUtilities {
         return None
       }
 
-      Some(Dimension(originalImage.getWidth, originalImage.getHeight))
+      Some(Dimensions(originalImage.getWidth, originalImage.getHeight))
     } catch {
       case e: Exception =>
         throw new IOException("Unable to size image", e)
@@ -90,21 +89,22 @@ object ImageUtilities {
   case class NotAnImageException() extends IOException("Unable to interpret image")
 
   def resizeImage(in: BufferedImage,
-                  newSize: Dimension,
+                  newSize: Dimensions,
                   respectAspect: Boolean): BufferedImage =
     Scalr.resize(in, Scalr.Method.ULTRA_QUALITY,
                  if (respectAspect) Scalr.Mode.AUTOMATIC else Scalr.Mode.FIT_EXACT,
                  newSize.width, newSize.height)
 
   def resizeImage(is: InputStream,
-                  os: OutputStream,
-                  newSize: Dimension,
+                  newSize: Dimensions,
                   outputMimeType: String,
-                  respectAspect: Boolean) {
+                  respectAspect: Boolean): (OutputStream => Unit) = {
     val originalImage = readImage(is)
+
     try {
       val scaled = resizeImage(originalImage, newSize, respectAspect)
-      writeImage(scaled, os, outputMimeType)
+
+      writeImage(scaled, outputMimeType)
     } catch {
       case e: Exception =>
         throw new IOException("Unable to resize image", e)
@@ -112,19 +112,19 @@ object ImageUtilities {
   }
 
   def cropImage(in: BufferedImage,
-                offset: Dimension,
-                newSize: Dimension): BufferedImage =
+                offset: Dimensions,
+                newSize: Dimensions): BufferedImage =
     Scalr.crop(in, offset.width, offset.height, newSize.width, newSize.height)
 
   def cropImage(is: InputStream,
-                os: OutputStream,
-                offset: Dimension,
-                newSize: Dimension,
+                offset: Dimensions,
+                newSize: Dimensions,
                 outputMimeType: String) {
     val originalImage = readImage(is)
     try {
       val cropped = cropImage(originalImage, offset, newSize)
-      writeImage(cropped, os, outputMimeType)
+
+      writeImage(cropped, outputMimeType)
     } catch {
       case e: Exception =>
         throw new IOException("Unable to crop image", e)
@@ -141,7 +141,7 @@ object ImageUtilities {
     }
   }
 
-  def writeImage(image: BufferedImage, os: OutputStream, outputMimeType: String) {
+  def writeImage(image: BufferedImage, outputMimeType: String): (OutputStream => Unit) = { os =>
     val writers: java.util.Iterator[ImageWriter] =
       ImageIO.getImageWritersByMIMEType(mimeMunging(outputMimeType))
     if (writers.hasNext) {
