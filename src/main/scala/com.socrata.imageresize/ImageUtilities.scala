@@ -119,7 +119,7 @@ object ImageUtilities {
   def cropImage(is: InputStream,
                 offset: Dimensions,
                 newSize: Dimensions,
-                outputMimeType: String) {
+                outputMimeType: String): (OutputStream => Unit) = {
     val originalImage = readImage(is)
     try {
       val cropped = cropImage(originalImage, offset, newSize)

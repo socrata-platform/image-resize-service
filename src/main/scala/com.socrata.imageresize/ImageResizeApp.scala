@@ -14,7 +14,8 @@ import com.socrata.http.server.routing.SimpleRouteContext.{Route, Routes}
 import com.socrata.http.server.{HttpRequest, HttpResponse, HttpService}
 
 class Router(healthService: HttpService,
-             resizeService: HttpService) {
+             resizeService: HttpService,
+             cropService: HttpService) {
   private val logger = LoggerFactory.getLogger(getClass)
   private val logWrapper = NewLoggingHandler(LoggingOptions(logger, Set("X-Socrata-Host",
                                                                         "X-Socrata-Resource",
@@ -22,7 +23,8 @@ class Router(healthService: HttpService,
 
   val routes = Routes(
     Route("/health", healthService),
-    Route("/resize", resizeService))
+    Route("/resize", resizeService),
+    Route("/crop", cropService))
 
   /** 404 error. */
   val notFound: HttpService = { req =>
@@ -36,7 +38,7 @@ class Router(healthService: HttpService,
 }
 
 object ImageResizeApp extends App {
-  val router = new Router(new HealthService(), new ResizeService())
+  val router = new Router(new HealthService(), new ResizeService(), new CropService())
 
   val server = new SocrataServerJetty(
     handler = router.route,
