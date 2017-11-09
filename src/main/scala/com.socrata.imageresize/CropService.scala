@@ -18,21 +18,18 @@ class CropService extends SimpleResource {
                                                                         ReqIdHeader))) _
 
   override def post = { req =>
-    req.parseQueryParametersAs[Int, Int, Int, Int, String, Boolean](
+    req.parseQueryParametersAs[Int, Int, Int, Int, String](
       "offsetX",
       "offsetY",
       "width",
       "height",
-      "outputMimeType",
-      "respectAspect") match {
+      "outputMimeType") match {
       case Right((Some(offsetX),
                   Some(offsetY),
                   Some(width),
                   Some(height),
-                  Some(outputMimeType),
-                  maybeRespectAspect)) =>
+                  Some(outputMimeType))) =>
         try {
-          val respectAspect = maybeRespectAspect.getOrElse(false)
           val offset = ImageUtilities.Dimensions(offsetX, offsetY)
           val newSize = ImageUtilities.Dimensions(width, height)
 
