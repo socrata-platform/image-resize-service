@@ -43,7 +43,7 @@ object ImageResizeApp extends App {
   val server = new SocrataServerJetty(
     handler = router.route,
     options = SocrataServerJetty.defaultOptions.
-      withPort(1989).
+      withPort(2025).
       withPoolOptions(SocrataServerJetty.Pool.defaultOptions.withMinThreads(10)))
 
   server.run()

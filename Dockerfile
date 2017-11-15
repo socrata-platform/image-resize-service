@@ -1,6 +1,6 @@
 FROM socrata/java8
 
-EXPOSE 1989
+EXPOSE 2025
 
 ENV SERVER_ROOT /srv/image-resize-service
 ENV SERVER_ARTIFACT image-resize-service-assembly.jar
