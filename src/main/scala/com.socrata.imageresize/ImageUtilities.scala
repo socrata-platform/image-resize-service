@@ -2,6 +2,7 @@ package com.socrata.imageresize
 
 import java.io._
 import javax.imageio.{ImageReader, ImageWriter, ImageIO}
+import javax.activation.{MimeType, MimeTypeParseException}
 import java.awt.image.BufferedImage
 import com.rojoma.simplearm.v2._
 import org.imgscalr.Scalr
@@ -61,9 +62,15 @@ object ImageUtilities {
   }
 
   def mimeMunging(mimeType: String) = {
-   mimeType.toLowerCase match {
-      case "image/pjpeg" => "image/jpeg"
-      case other => other
+    try {
+      val parsed = new MimeType(mimeType)
+      (parsed.getPrimaryType, parsed.getSubType) match {
+        case ("image", "pjpeg") => "image/jpeg"
+        case other => parsed.getBaseType
+      }
+    } catch {
+      case _: MimeTypeParseException =>
+        mimeType
     }
   }
 
