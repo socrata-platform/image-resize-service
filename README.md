@@ -2,6 +2,12 @@
 
 A small HTTP service for resizing and cropping images.
 
+## Starting the service ##
+
+```sh
+sbt image-resize-service/run
+```
+
 ## Endpoints ##
 * `/resize`:
   - `width` (required): The desired (max) width.
