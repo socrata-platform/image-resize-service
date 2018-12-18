@@ -7,12 +7,12 @@ version := "0.0.1"
 scalaVersion := "2.11.8"
 
 resolvers ++= Seq(
-  "socrata maven" at "https://repository-socrata-oss.forge.cloudbees.com/release"
+  "Socrata Artifactory" at "https://repo.socrata.com/artifactory/libs-release"
 )
 
 libraryDependencies ++= Seq(
   "ch.qos.logback" % "logback-classic" % "1.1.3",
-  "com.socrata" %% "socrata-http-jetty" % "3.11.1",
+  "com.socrata" %% "socrata-http-jetty" % "3.11.4",
   "org.imgscalr" % "imgscalr-lib" % "4.2"
 )
 
