@@ -1,4 +1,4 @@
-FROM socrata/ruby-bionic:2.5.3
+FROM socrata/java8-bionic
 
 EXPOSE 2025
 
