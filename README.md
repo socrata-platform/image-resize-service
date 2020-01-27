@@ -2,6 +2,9 @@
 
 A small HTTP service for resizing and cropping images.
 
+## Quick run
+`sbt image-resize-service/run`
+
 ## Starting the service ##
 
 ```sh
