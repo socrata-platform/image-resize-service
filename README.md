@@ -5,6 +5,15 @@ A small HTTP service for resizing and cropping images.
 ## Quick run
 `sbt image-resize-service/run`
 
+##### 
+
+To run the dockerized version
+
+`sbt assembly`
+`mv target/scala-2.11/image-resize-service-assembly-0.0.1.jar image-resize-service-assembly.jar`
+`docker build .`
+`docker run [machine_hash]`
+
 ## Starting the service ##
 
 ```sh
