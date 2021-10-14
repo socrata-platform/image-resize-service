@@ -41,7 +41,7 @@ pipeline {
     }
 
     stage('Master') {
-      when { branch 'master' }
+      when { branch 'main' }
       stages {
         stage('Build and push image') {
           steps {
@@ -64,7 +64,7 @@ pipeline {
         }
         stage('Deploy to staging') {
           steps {
-            // this must match the "RUBY VERSION" in https://github.com/socrata/apps-marathon/blob/master/Gemfile.lock
+            // this must match the "RUBY VERSION" in https://github.com/socrata/apps-marathon/blob/main/Gemfile.lock
             withRbenv("2.5.3") {
               script {
                 marathon.checkoutAndInstall()
