@@ -32,6 +32,19 @@ pipeline {
   }
 
   stages {
+    stage('Pull Request') {
+      when { changeRequest() }
+      stages {
+        stage('Build') {
+          steps {
+            script {
+              sh 'sbt assembly'
+            }
+          }
+        }
+      }
+    }
+
     stage('Initialize Job Details') {
       steps {
         script {
