@@ -48,7 +48,7 @@ pipeline {
             sh 'sbt assembly'
 
             // NOTE: If you're changing the version of this service, you'll also have to change the version here
-            sh 'cp target/scala-2.11/image-resize-service-assembly-0.0.1.jar image-resize-service-assembly.jar'
+            sh 'cp target/scala-2.12/image-resize-service-assembly-0.0.1.jar image-resize-service-assembly.jar'
             sh 'docker build --tag image-resize-service:latest .'
             sh 'rm image-resize-service-assembly.jar'
 
