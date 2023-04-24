@@ -4,7 +4,7 @@ organization := "com.socrata"
 
 version := "0.0.1"
 
-scalaVersion := "2.11.8"
+scalaVersion := "2.12.12"
 
 resolvers ++= Seq(
   "Socrata Artifactory" at "https://repo.socrata.com/artifactory/libs-release"
@@ -12,7 +12,7 @@ resolvers ++= Seq(
 
 libraryDependencies ++= Seq(
   "ch.qos.logback" % "logback-classic" % "1.1.3",
-  "com.socrata" %% "socrata-http-jetty" % "3.11.4",
+  "com.socrata" %% "socrata-http-jetty" % "3.16.0",
   "org.imgscalr" % "imgscalr-lib" % "4.2"
 )
 
