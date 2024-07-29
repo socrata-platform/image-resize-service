@@ -1,8 +1,8 @@
 @Library('socrata-pipeline-library')
 
-def dockerize = new com.socrata.Dockerize(steps, 'image-resize-service', BUILD_NUMBER)
+String lastStage
 
-def lastStage
+def dockerize = new com.socrata.Dockerize(steps, 'image-resize-service', BUILD_NUMBER)
 
 pipeline {
   options {
@@ -21,7 +21,7 @@ pipeline {
   environment {
     SERVICE = 'image-resize-service'
     SERVICE_VERSION = '0.0.1'
-    WEBHOOK_ID = 'WEBHOOK_ACCESS_CONTROL_Q_AND_A'
+    WEBHOOK_ID = 'WORKFLOW_ACCESS_CONTROL_Q_AND_A'
   }
   stages {
     stage('Pull Request') {
@@ -53,8 +53,7 @@ pipeline {
           steps {
             script {
               lastStage = env.STAGE_NAME
-              // Deploys env.SERVICE with tag env.DOCKER_TAG to staging by default
-              marathonDeploy()
+              marathonDeploy(serviceName: env.SERVICE, tag: env.DOCKER_TAG, environment: 'staging')
             }
           }
         }
@@ -62,7 +61,10 @@ pipeline {
       post {
         failure {
           script {
-            teamsMessage(message: "Build [${currentBuild.fullDisplayName}](${env.BUILD_URL}) has failed in stage ${lastStage}", webhookCredentialID: WEBHOOK_ID)
+            teamsWorkflowMessage(
+              message: "[${currentBuild.fullDisplayName}](${env.BUILD_URL}) has failed in stage ${lastStage}",
+              workflowCredentialID: WEBHOOK_ID
+            )
           }
         }
       }
