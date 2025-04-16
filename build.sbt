@@ -1,6 +1,3 @@
-import sbtassembly.AssemblyKeys.assembly
-import sbtassembly.{MergeStrategy, PathList}
-
 name := "image-resize-service"
 
 organization := "com.socrata"
@@ -41,3 +38,5 @@ assembly / assemblyMergeStrategy := {
   case "module-info.class" => MergeStrategy.discard
   case other => MergeStrategy.defaultMergeStrategy(other)
 }
+
+assembly / assemblyJarName := s"${name.value}-assembly.jar"
