@@ -1,0 +1,21 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: image-resize-service
+  description: |
+    Resizes and crops images. This service only exists to make it harder to do a
+    DOS attack against core-server with giant image requests.
+  links:
+  - title: OpsDoc
+    url: "https://socrata.atlassian.net/wiki/spaces/ONCALL/pages/2158592212/OpsDoc+-+Image+Resize+Service"
+  - title: Teams Channel
+    url: "https://teams.microsoft.com/l/channel/19%3Ad7ff7f1fb1b648a9a3b38e518724cfe8%40thread.tacv2/auth-and-discovery-q-and-a?groupId=102da3ef-c928-4a59-afe5-f0d51e6443dd&tenantId=7cc5f0f9-ee5b-4106-a62d-1b9f7be46118"
+  annotations:
+    github.com/project-slug: socrata-platform/image-resize-service
+    backstage.io/techdocs-ref: dir:.
+  tags:
+    - scala
+spec:
+  type: service
+  owner: auth-and-discovery
+  lifecycle: production
