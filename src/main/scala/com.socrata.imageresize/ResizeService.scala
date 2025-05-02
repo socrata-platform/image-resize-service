@@ -8,14 +8,9 @@ import org.slf4j.LoggerFactory
 import com.socrata.http.server.implicits.httpResponseToChainedResponse
 import com.socrata.http.server.responses.{OK, BadRequest, InternalServerError, ContentType, Json, Stream}
 import com.socrata.http.server.routing.SimpleResource
-import com.socrata.http.server.util.RequestId.ReqIdHeader
-import com.socrata.http.server.util.handlers.{LoggingOptions, NewLoggingHandler}
 
 class ResizeService extends SimpleResource {
   private val logger = LoggerFactory.getLogger(getClass)
-  private val logWrapper = NewLoggingHandler(LoggingOptions(logger, Set("X-Socrata-Host",
-                                                                        "X-Socrata-Resource",
-                                                                        ReqIdHeader))) _
 
   override def post = { req =>
     req.parseQueryParametersAs[Int, Int, String, Boolean](

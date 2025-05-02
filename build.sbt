@@ -32,6 +32,9 @@ assembly / assemblyMergeStrategy := {
       case "maven" :: xs => MergeStrategy.discard
       case "manifest.mf" :: nil => MergeStrategy.discard
       case "index.list" :: nil => MergeStrategy.discard
+      case "license" :: nil => MergeStrategy.discard
+      case "license.txt" :: nil => MergeStrategy.discard
+      case "notice.txt" :: nil => MergeStrategy.discard
       case head :+ "module-info.class" => MergeStrategy.discard
       case _ => MergeStrategy.deduplicate
     }

@@ -1,12 +1,10 @@
 package com.socrata.imageresize
 
 import java.io._
-import javax.imageio.{ImageReader, ImageWriter, ImageIO}
+import javax.imageio.{ImageWriter, ImageIO}
 import javax.activation.{MimeType, MimeTypeParseException}
 import java.awt.image.BufferedImage
-import com.rojoma.simplearm.v2._
 import org.imgscalr.Scalr
-import org.apache.commons.io.FilenameUtils
 
 /**
  * Convert images around. Uses the mime types from Java IIO.
@@ -31,35 +29,6 @@ import org.apache.commons.io.FilenameUtils
  */
 object ImageUtilities {
   case class Dimensions(width: Int, height: Int)
-
-  def getMimeType(filename: String): Option[String] = {
-    FilenameUtils.getExtension(filename) match {
-      case null | "" => None
-      case ext => getMimeType(ImageIO.getImageReadersBySuffix(ext))
-    }
-  }
-
-  def getMimeType(is: InputStream): Option[String] = {
-    val iis = ImageIO.createImageInputStream(is)
-    val readers = ImageIO.getImageReaders(iis)
-
-    getMimeType(readers)
-  }
-
-  def getMimeType(readers: java.util.Iterator[ImageReader]): Option[String] = {
-    if (readers.hasNext) {
-      val reader = readers.next()
-      val mimeTypes = reader.getOriginatingProvider.getMIMETypes
-
-      Some(mimeTypes(0)) // get the first
-    } else {
-      None
-    }
-  }
-
-  def isMimeTypeSupported(mimeType: String) = {
-    ImageIO.getReaderMIMETypes.contains(mimeMunging(mimeType))
-  }
 
   def mimeMunging(mimeType: String) = {
     try {
@@ -160,17 +129,5 @@ object ImageUtilities {
     } else {
       throw new IOException("No writers available for mime type " + mimeMunging(outputMimeType))
     }
-  }
-
-  def toBufferedImage(is: InputStream): BufferedImage = {
-    val originalImageStream = ImageIO.createImageInputStream(is)
-    val image = ImageIO.read(originalImageStream)
-    // if image != null, then originalInputStream has already been closed and it is an error
-    // to do so again.
-    if (image == null) {
-      originalImageStream.close()
-    }
-
-    image
   }
 }
