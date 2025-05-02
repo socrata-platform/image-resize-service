@@ -1,13 +1,11 @@
 package com.socrata.imageresize
 
-import javax.servlet.http.HttpServletRequest
-
 import org.slf4j.LoggerFactory
 import com.rojoma.json.v3.interpolation._
 
 import com.socrata.http.server.SocrataServerJetty
 import com.socrata.http.server.implicits._
-import com.socrata.http.server.responses.{NotFound, Content, Json}
+import com.socrata.http.server.responses.{NotFound, Json}
 import com.socrata.http.server.util.RequestId.ReqIdHeader
 import com.socrata.http.server.util.handlers.{LoggingOptions, NewLoggingHandler}
 import com.socrata.http.server.routing.SimpleRouteContext.{Route, Routes}

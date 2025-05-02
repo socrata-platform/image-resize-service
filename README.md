@@ -11,7 +11,7 @@ To run the dockerized version
 
 ```
 sbt assembly
-mv target/scala-2.11/image-resize-service-assembly-0.0.1.jar image-resize-service-assembly.jar
+mv target/scala-2.12/image-resize-service-assembly-0.0.1.jar image-resize-service-assembly.jar
 docker build .
 docker run [machine_hash]
 ```
