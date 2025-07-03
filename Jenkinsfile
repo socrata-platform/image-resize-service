@@ -1,4 +1,4 @@
-@Library('socrata-pipeline-library')
+@Library('socrata-pipeline-library@9.0.0')
 
 String lastStage
 
@@ -11,6 +11,7 @@ pipeline {
   }
   parameters {
     string(name: 'AGENT', defaultValue: 'build-worker', description: 'Which build agent to use?')
+    string(name: 'BRANCH_SPECIFIER', defaultValue: 'origin/main', description: 'Use this branch for building the artifact.')
   }
   agent {
     label params.AGENT
@@ -24,6 +25,20 @@ pipeline {
     WEBHOOK_ID = 'WORKFLOW_ACCESS_CONTROL_Q_AND_A'
   }
   stages {
+    stage('Generate Leaked Secrets Report') {
+      steps {
+        script {
+          lastStage = env.STAGE_NAME
+          assert isInstalled('gitleaks'): 'gitleaks is missing.'
+          String secretsReportFileName = 'gitleaks-report.json'
+          String gitleaksCommand = getGitleaksCommand secretsReportFileName
+          assert sh (script: gitleaksCommand, returnStatus: true) == 0: \
+              'Attempt to run gitleaks failed.'
+          echo "Generated report ${secretsReportFileName}."
+          archiveArtifacts artifacts: secretsReportFileName, fingerprint: true
+        }
+      }
+    }
     stage('Pull Request') {
       when { changeRequest() }
       steps {
