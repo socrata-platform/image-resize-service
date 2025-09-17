@@ -3,6 +3,7 @@
 commonPipeline(
     jobName: 'image-resize-service',
     language: 'scala',
+    lintCommitMessages: false,
     projects: [
         [
             name: 'image-resize-service',
