@@ -11,7 +11,7 @@ metadata:
   annotations:
     github.com/project-slug: socrata-platform/image-resize-service
     backstage.io/techdocs-ref: dir:.
-    infrastructure: apps-marathon
+    infrastructure: uniform
 spec:
   type: service
   owner: auth-and-discovery

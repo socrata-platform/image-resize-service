@@ -8,7 +8,7 @@ commonPipeline(
         [
             name: 'image-resize-service',
             compiled: true,
-            deploymentEcosystem: 'marathon-mesos',
+            deploymentEcosystem: 'ecs',
             paths: [
                 dockerBuildContext: 'docker',
             ],
